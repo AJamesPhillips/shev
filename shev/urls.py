@@ -3,10 +3,9 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'shev.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+import roster
 
+urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^roster/', include('roster.urls'))
 )

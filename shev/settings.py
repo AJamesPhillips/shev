@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'shev',
+    'roster',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -48,9 +48,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'shev.urls'
+ROOT_URLCONF = 'urls'
 
-WSGI_APPLICATION = 'shev.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database
