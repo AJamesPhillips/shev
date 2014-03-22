@@ -41,8 +41,14 @@ CNTRCTS = (
     ("AGNL","Agency Line")
     )
 
+class Day(models.Model):
+    day = models.DateField()
+    note = models.TextField(null=True, blank=True)
+    def __unicode__(self):
+        return u"%s %s" % (self.day, self.note)
+
 class Shift(models.Model):
-    day = models.DateField("shift day", null=True, blank=True)
+    day = models.ForeignKey(Day)
     person = models.ForeignKey(Person)
     shift_type = models.ForeignKey(ShiftType)
     start = models.TimeField(null=True, blank=True)
@@ -53,4 +59,4 @@ class Shift(models.Model):
     assigned = models.TextField(null=True, blank=True)
     
     def __unicode__(self):
-        return u"%s on %s" % (self.person, self.day)
+        return u"%s - %s - %s" % (self.day.day, self.person, self.shift_type)
