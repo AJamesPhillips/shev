@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from . import models
 from datetime import datetime
 
+
 def home(request):
     return HttpResponse('<h1>Hello World</h1>')
 
