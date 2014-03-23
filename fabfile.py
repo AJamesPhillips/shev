@@ -7,6 +7,7 @@ from fabric.network import disconnect_all
 
 PROJECT_NAME = 'shev'
 USERNAME = 'ubuntu'
+ROOT_USER = 'root'
 USER_DIR = '/usr/{}'.format(USERNAME)
 DEPLOY_PATH = '{}/{}'.format(USER_DIR, PROJECT_NAME)
 
@@ -15,33 +16,42 @@ env.password = ''
 env.use_ssh_config = True
 
 
+def as_root():
+    env.user = ROOT_USER
+    disconnect_all()
+
+
+def as_ubuntu():
+    env.user = USERNAME
+    disconnect_all()
+
+
 def setup():
-    env.user = 'root'
+    as_root()
     create_user(USERNAME)
     setup_ssh()
     install_dependancies()
-    env.user = USERNAME
-    disconnect_all()
-    # setup_user_env()
+    ensure_dir('/var/log/{}'.format(PROJECT_NAME), USERNAME)
+
+    as_ubuntu()
+    setup_user_env()
     clone_repo(repo=os.environ['REPO'], destination=DEPLOY_PATH)
-    with cd(DEPLOY_PATH):
-        run('virtualenv venv')
-        run('source venv/bin/activate && pip install -r requirements.txt')
+    install_repo_dependancies()
 
 
 def create_user(username):
     home_dir = '/usr/{}'.format(username)
-    ensure_dir(home_dir)
+    ensure_dir(home_dir, username)
     with settings(warn_only=True):
         user_present = run('id {u}'.format(u=username)).return_code == 0
         if user_present is False:
             run('useradd {} --home {} --shell /bin/bash'.format(username, home_dir))
-    run('chown {} {}'.format(username, home_dir))
-    run('adduser {} sudo'.format(username))
+    # run('adduser {} sudo'.format(username))
 
 
-def ensure_dir(path):
+def ensure_dir(path, username):
     run('mkdir -p {}'.format(path))
+    run('chown {} {}'.format(username, path))
 
 
 def setup_ssh():
@@ -58,16 +68,18 @@ def setup_ssh():
     pem_key = expanduser('~/.ssh/{}.pem'.format(key_name))
     pub_key = expanduser('~/.ssh/{}.pub'.format(key_name))
     ssh = '{}/.ssh'.format(USER_DIR)
-    ensure_dir(ssh)
+    ensure_dir(ssh, USERNAME)
     authorized_keys = '{}/.ssh/authorized_keys'.format(USER_DIR)
     put(local_path=pub_key, remote_path=authorized_keys)
     run('chmod 600 {}'.format(authorized_keys))
-    chown(USERNAME, ssh)
 
     # set local ssh config
     local_config = 'Host {}\nUser {}\nIdentityFile {}'.format(env.host_string, USERNAME, pem_key)
     config_filename = expanduser('~/.ssh/config')
     print "You'll want to put the following in your file '{}' and then add {} to your ssh-agent:\n\n{}\n\n".format(config_filename, pem_key, local_config)
+    print ("And you'll want to add the following to your sudoers using visudo:\n\n" +
+           "# Allow the ubuntu use to manage upstart applications" +
+           "ubuntu ALL=(ALL:ALL) NOPASSWD: /sbin/start, /sbin/restart, /sbin/stop\n\n")
     prompt("Yep, I've got it thanks!")
 
 
@@ -91,3 +103,41 @@ def clone_repo(repo, destination):
 def install_dependancies():
     run('apt-get install -y python-pip git')
     run('pip install virtualenv')
+
+
+def install_repo_dependancies():
+    with cd(DEPLOY_PATH):
+        run('virtualenv venv')
+        run_with_venv('pip install -r requirements.txt')
+
+
+def run_with_venv(cmd):
+    with cd(DEPLOY_PATH):
+        run('source venv/bin/activate && {}'.format(cmd))
+
+
+def restart(redefine='f'):
+    env = 'conf/stage.env'
+    as_ubuntu()
+    with settings(warn_only=True):
+        if run('ls ' + env).return_code != 0:
+            abort("You need to upload the environment file '{}' first".format(env))
+
+    as_root()
+    if redefine != 'f':
+        run_with_venv('honcho export --user {} --app {} --shell /bin/bash -e {} -f Procfile.stage upstart /etc/init'.format(USERNAME, PROJECT_NAME, env))
+
+    as_ubuntu()
+    restarted = False
+    with settings(warn_only=True):
+        restarted = run('sudo restart {}-web'.format(PROJECT_NAME)).return_code == 0
+    if not restarted:
+        run('sudo start {}-web'.format(PROJECT_NAME))
+
+
+def deploy():
+    as_ubuntu()
+    install_repo_dependancies()
+    with cd(DEPLOY_PATH):
+        run('git pull')
+

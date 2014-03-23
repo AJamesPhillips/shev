@@ -1,1 +1,1 @@
-web: source $VENV/bin/activate; python shev/manage.py runserver
+web: python shev/manage.py runserver
