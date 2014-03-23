@@ -6,7 +6,7 @@ upstream app_server {
 }
 
 server {
-  root %(DEPLOY_PATH)s/shev/public;
+  root %(DEPLOY_PATH)s/shev/static;
 
   # define what error page for what error cocde
   error_page 500 502 504 /500.html;
