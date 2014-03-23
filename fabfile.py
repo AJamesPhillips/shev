@@ -110,7 +110,7 @@ def clone_repo(repo, destination):
 
 def install_dependancies():
     run('apt-get update')
-    run('apt-get install -y python-pip git nginx')
+    run('apt-get install -y gcc libevent-dev python-all-dev python-pip git nginx')
     run('pip install virtualenv')
 
 
@@ -139,16 +139,18 @@ def setup_nginx():
 
 def restart(redefine='f'):
     if redefine != 'f':
+        as_ubuntu()
         with hide('warnings'):
             with cd(DEPLOY_PATH):
                 env = 'conf/stage.env'
-                as_ubuntu()
                 with settings(warn_only=True):
                     if not exists(env):
                         abort("You need to upload the environment file '{}' first".format(env))
-        context = {'PORT': os.environ['PORT']}
-        upload_template(filename='deploy/templates/Procfile.stage',
-          destination='Procfile.stage', backup=False, context=context)
+                context = {'PORT': os.environ['PORT']}
+                upload_template(filename='deploy/templates/Procfile.stage',
+                  destination='Procfile.stage', backup=False, context=context)
+                upload_template(filename='deploy/templates/gunicorn.conf',
+                  destination='gunicorn.conf', backup=False,)
         as_root()
         run_with_venv('honcho export --user {} --app {} --shell /bin/bash -e {} -f Procfile.stage upstart /etc/init'.format(USERNAME, PROJECT_NAME, env))
 
@@ -171,3 +173,6 @@ def deploy():
         run('git pull')
     restart()
 
+
+def logs():
+    run('tail -f /var/log/shev/*.log')

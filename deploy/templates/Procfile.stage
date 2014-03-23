@@ -1,1 +1,1 @@
-web: source $VENV/bin/activate; gunicorn kvasir.wsgi:application --config gunicorn.conf --bind 127.0.0.1:%(PORT)s
+web: source $VENV/bin/activate; gunicorn shev.wsgi:application --config gunicorn.conf --bind 127.0.0.1:%(PORT)s

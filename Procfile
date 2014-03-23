@@ -1,1 +1,1 @@
-web: python shev/manage.py runserver
+web: python manage.py runserver
