@@ -40,6 +40,7 @@ def setup():
     setup_user_env()
     clone_repo(repo=os.environ['REPO'], destination=DEPLOY_PATH)
     install_repo_dependancies()
+    setup_db()
 
 
 def create_user(username):
@@ -114,6 +115,17 @@ def install_dependancies():
     run('pip install virtualenv')
 
 
+def setup_nginx():
+    context = {
+      'PORT': os.environ['PORT'],
+      'DEPLOY_PATH': DEPLOY_PATH,
+    }
+    upload_template(filename='./deploy/templates/nginx-sites-enabled/app',
+      context=context, backup=False,
+      destination='/etc/nginx/sites-enabled/app.conf')
+    run('update-rc.d nginx defaults')
+
+
 def install_repo_dependancies():
     with cd(DEPLOY_PATH):
         if not exists('venv'):
@@ -126,15 +138,9 @@ def run_with_venv(cmd):
         run('source venv/bin/activate && {}'.format(cmd))
 
 
-def setup_nginx():
-    context = {
-      'PORT': os.environ['PORT'],
-      'DEPLOY_PATH': DEPLOY_PATH,
-    }
-    upload_template(filename='./deploy/templates/nginx-sites-enabled/app',
-      context=context, backup=False,
-      destination='/etc/nginx/sites-enabled/app.conf')
-    run('update-rc.d nginx defaults')
+def setup_db():
+    with cd(DEPLOY_PATH):
+        run_with_venv('honcho run -e conf/stage.env python manage.py syncdb')
 
 
 def restart(redefine='f'):
@@ -175,4 +181,4 @@ def deploy():
 
 
 def logs():
-    run('tail -f /var/log/shev/*.log')
+    run('tail -f /var/log/shev/*.log /var/log/nginx/*.log')
