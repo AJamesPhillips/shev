@@ -9,27 +9,34 @@ BANDS = (("7","7"),
          )
 
 class TeamOrAgency(models.Model):
-    label = models.TextField()
+    label = models.CharField(max_length=40)
     def __unicode__(self):
         return u"%s" % (self.label)
+    class Meta:
+        verbose_name_plural = "Teams and Agencies"
 
 class Person(models.Model):
-    first_name = models.TextField()
-    last_name = models.TextField()
+    first_name = models.CharField(max_length=40)
+    last_name = models.CharField(max_length=40)
     band = models.CharField(max_length=5, choices=BANDS)
     team_or_agency = models.ForeignKey(TeamOrAgency)
+## TODO
+# Person needs a 'pod' and an ALEntitlement field?
+#
     def __unicode__(self):
         return u"%s %s" % (self.first_name, self.last_name)
+    class Meta:
+        verbose_name_plural = "People"
 
 
 class ShiftType(models.Model):
-    label = models.TextField()
+    label = models.CharField(max_length=40)
     hours = models.DecimalField(max_digits=6, decimal_places=2)
     def __unicode__(self):
         return u"%s:%s hours" % (self.label, self.hours)
 
 class Outcome(models.Model):
-    label = models.TextField()
+    label = models.CharField(max_length=100)
     def __unicode__(self):
         return u"%s" % (self.label)
 
@@ -55,8 +62,8 @@ class Shift(models.Model):
     end = models.TimeField(null=True, blank=True)
     contract = models.CharField(max_length=4, choices=CNTRCTS)
     outcome = models.ForeignKey(Outcome)
-    note = models.TextField(null=True, blank=True)
-    assigned = models.TextField(null=True, blank=True)
+    note = models.CharField(max_length=80,null=True, blank=True)
+    assigned = models.CharField(max_length=20, null=True, blank=True) # this is something to do with the pod...
     
     def __unicode__(self):
         return u"%s - %s - %s" % (self.day.day, self.person, self.shift_type)
