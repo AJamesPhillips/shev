@@ -3,6 +3,7 @@ from os.path import expanduser
 
 from fabric.api import cd, env, hide, run, put, settings, local, abort, sudo, prompt, open_shell
 from fabric.network import disconnect_all
+from fabric.contrib.files import exists
 
 
 PROJECT_NAME = 'shev'
@@ -107,7 +108,8 @@ def install_dependancies():
 
 def install_repo_dependancies():
     with cd(DEPLOY_PATH):
-        run('virtualenv venv')
+        if not exists('venv'):
+            run('virtualenv venv')
         run_with_venv('pip install -r requirements.txt')
 
 
@@ -141,4 +143,5 @@ def deploy():
     install_repo_dependancies()
     with cd(DEPLOY_PATH):
         run('git pull')
+    restart()
 
