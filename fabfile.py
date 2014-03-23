@@ -1,7 +1,8 @@
 import os
 from os.path import expanduser
+from StringIO import StringIO
 
-from fabric.api import cd, env, hide, run, put, settings, local, abort, sudo, prompt, open_shell
+from fabric.api import cd, env, hide, run, get, put, settings, abort, prompt
 from fabric.network import disconnect_all
 from fabric.contrib.files import exists
 
@@ -60,10 +61,11 @@ def setup_ssh():
     Ensures the correct private and public keys are on local machine before
     adding public part to authorized_keys on remote host
     """
-    with settings(warn_only=True):
-        have_key = run('ls ~/.ssh/id_rsa').return_code == 0
-        if have_key is False:
-            run('ssh-keygen')
+    if not exists('~/.ssh/id_rsa'):
+        run('ssh-keygen')
+        pub_key = get_contents('~/.ssh/id_rsa.pub')
+        prompt('You will need to add the public key to your github repo:' +
+               '\n\n{}\n\n> Ok, got it thanks! (press enter to continue)'.format(pub_key))
     put(local_path='./deploy/templates/sshd_config.txt', remote_path='/etc/ssh/sshd_config', use_sudo=True)
     key_name = 'nhs_shev'
     pem_key = expanduser('~/.ssh/{}.pem'.format(key_name))
@@ -81,11 +83,17 @@ def setup_ssh():
     print ("And you'll want to add the following to your sudoers using visudo:\n\n" +
            "# Allow the ubuntu use to manage upstart applications" +
            "ubuntu ALL=(ALL:ALL) NOPASSWD: /sbin/start, /sbin/restart, /sbin/stop\n\n")
-    prompt("Yep, I've got it thanks!")
+    prompt("> Yep, I've got it thanks! (press enter to continue)")
 
 
 def chown(username, file_or_dir):
     run('chown -R {} {}'.format(username, file_or_dir))
+
+
+def get_contents(remote_path):
+    fd = StringIO()
+    get(remote_path, fd)
+    return fd.getvalue()
 
 
 def setup_user_env():
@@ -95,9 +103,7 @@ def setup_user_env():
 
 def clone_repo(repo, destination):
     run('mkdir -p {}'.format(destination))
-    with settings(warn_only=True):
-        not_present = run('ls {}/.git'.format(destination)).return_code != 0
-    if not_present:
+    if not exists('{}/.git'.format(destination)):
         run('git clone {} {}'.format(repo, destination))
 
 
@@ -125,7 +131,7 @@ def restart(redefine='f'):
                 env = 'conf/stage.env'
                 as_ubuntu()
                 with settings(warn_only=True):
-                    if run('ls ' + env).return_code != 0:
+                    if not exists(env):
                         abort("You need to upload the environment file '{}' first".format(env))
         as_root()
         run_with_venv('honcho export --user {} --app {} --shell /bin/bash -e {} -f Procfile.stage upstart /etc/init'.format(USERNAME, PROJECT_NAME, env))
