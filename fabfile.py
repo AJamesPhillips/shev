@@ -117,6 +117,7 @@ def install_dependancies():
 
 
 def setup_nginx():
+    as_root()
     context = {
       'PORT': os.environ['PORT'],
       'DEPLOY_PATH': DEPLOY_PATH,
@@ -145,21 +146,20 @@ def setup_db():
 
 
 def restart(redefine='f'):
+    as_ubuntu()
+    with cd(DEPLOY_PATH):
+        env = 'conf/stage.env'
+        put(local_path=env, remote_path=env)
+        context = {'VENV': VENV_PATH, 'PORT': os.environ['PORT']}
+        upload_template(filename='deploy/templates/Procfile.stage',
+          destination='Procfile.stage', backup=False, context=context)
+        upload_template(filename='deploy/templates/gunicorn.conf',
+          destination='gunicorn.conf', backup=False,)
+
     if redefine != 'f':
-        as_ubuntu()
-        with hide('warnings'):
-            with cd(DEPLOY_PATH):
-                env = 'conf/stage.env'
-                with settings(warn_only=True):
-                    if not exists(env):
-                        abort("You need to upload the environment file '{}' first".format(env))
-                context = {'VENV': VENV_PATH, 'PORT': os.environ['PORT']}
-                upload_template(filename='deploy/templates/Procfile.stage',
-                  destination='Procfile.stage', backup=False, context=context)
-                upload_template(filename='deploy/templates/gunicorn.conf',
-                  destination='gunicorn.conf', backup=False,)
         as_root()
         run_with_venv('honcho export --user {} --app {} --shell /bin/bash -e {} -f Procfile.stage upstart /etc/init'.format(USERNAME, PROJECT_NAME, env))
+        setup_nginx()
 
     as_ubuntu()
     if not run_succeeds('sudo restart {}-web'.format(PROJECT_NAME)):
@@ -173,13 +173,13 @@ def run_succeeds(cmd):
       return run(cmd).return_code == 0
 
 
-def deploy():
+def deploy(redefine='f'):
     as_ubuntu()
     install_repo_dependancies()
     with cd(DEPLOY_PATH):
         run('git pull')
         run_with_venv('honcho run -e conf/stage.env python manage.py collectstatic')
-    restart()
+    restart(redefine)
 
 
 def logs():
