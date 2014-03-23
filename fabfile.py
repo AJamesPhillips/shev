@@ -4,7 +4,7 @@ from StringIO import StringIO
 
 from fabric.api import cd, env, hide, run, get, put, settings, abort, prompt
 from fabric.network import disconnect_all
-from fabric.contrib.files import exists
+from fabric.contrib.files import exists, upload_template
 
 
 PROJECT_NAME = 'shev'
@@ -34,6 +34,7 @@ def setup():
     setup_ssh()
     install_dependancies()
     ensure_dir('/var/log/{}'.format(PROJECT_NAME), USERNAME)
+    setup_nginx()
 
     as_ubuntu()
     setup_user_env()
@@ -82,7 +83,7 @@ def setup_ssh():
     print "You'll want to put the following in your file '{}' and then add {} to your ssh-agent:\n\n{}\n\n".format(config_filename, pem_key, local_config)
     print ("And you'll want to add the following to your sudoers using visudo:\n\n" +
            "# Allow the ubuntu use to manage upstart applications" +
-           "ubuntu ALL=(ALL:ALL) NOPASSWD: /sbin/start, /sbin/restart, /sbin/stop\n\n")
+           "ubuntu ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service, /sbin/start, /sbin/restart, /sbin/stop\n\n")
     prompt("> Yep, I've got it thanks! (press enter to continue)")
 
 
@@ -108,7 +109,8 @@ def clone_repo(repo, destination):
 
 
 def install_dependancies():
-    run('apt-get install -y python-pip git')
+    run('apt-get update')
+    run('apt-get install -y python-pip git nginx')
     run('pip install virtualenv')
 
 
@@ -124,6 +126,17 @@ def run_with_venv(cmd):
         run('source venv/bin/activate && {}'.format(cmd))
 
 
+def setup_nginx():
+    context = {
+      'PORT': os.environ['PORT'],
+      'DEPLOY_PATH': DEPLOY_PATH,
+    }
+    upload_template(filename='./deploy/templates/nginx-sites-enabled/app',
+      context=context, backup=False,
+      destination='/etc/nginx/sites-enabled/app.conf')
+    run('update-rc.d nginx defaults')
+
+
 def restart(redefine='f'):
     if redefine != 'f':
         with hide('warnings'):
@@ -137,11 +150,15 @@ def restart(redefine='f'):
         run_with_venv('honcho export --user {} --app {} --shell /bin/bash -e {} -f Procfile.stage upstart /etc/init'.format(USERNAME, PROJECT_NAME, env))
 
     as_ubuntu()
-    restarted = False
-    with settings(warn_only=True):
-        restarted = run('sudo restart {}-web'.format(PROJECT_NAME)).return_code == 0
-    if not restarted:
+    if not run_succeeds('sudo restart {}-web'.format(PROJECT_NAME)):
         run('sudo start {}-web'.format(PROJECT_NAME))
+    if not run_succeeds('sudo service nginx restart'):
+        run('sudo service nginx start')
+
+
+def run_succeeds(cmd):
+  with settings(warn_only=True):
+      return run(cmd).return_code == 0
 
 
 def deploy():
