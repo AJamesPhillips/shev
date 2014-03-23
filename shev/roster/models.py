@@ -12,6 +12,8 @@ class TeamOrAgency(models.Model):
     label = models.TextField()
     def __unicode__(self):
         return u"%s" % (self.label)
+    class Meta:
+        verbose_name_plural = "Teams and Agencies"
 
 class Person(models.Model):
     first_name = models.TextField()
@@ -20,6 +22,8 @@ class Person(models.Model):
     team_or_agency = models.ForeignKey(TeamOrAgency)
     def __unicode__(self):
         return u"%s %s" % (self.first_name, self.last_name)
+    class Meta:
+        verbose_name_plural = "People"
 
 
 class ShiftType(models.Model):
