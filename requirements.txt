@@ -4,3 +4,4 @@ honcho==0.5.0
 Jinja2==2.7.2
 gevent==1.0
 gunicorn==18.0
+South==0.8.4
