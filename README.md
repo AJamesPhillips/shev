@@ -23,6 +23,13 @@ We'd recommend using something like virtualenv to manage your packages.
 
     $ honcho start
 
+### Schema changes and Migrations
+
+Change your models, then:
+
+    $ honcho run ./manage.py schemamigration roster --auto   # generate new migration
+    $ honcho run ./manage.py migrate                         # apply the new migration
+
 
 ## Provisioning and deployment
 
