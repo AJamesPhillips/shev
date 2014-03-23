@@ -30,6 +30,7 @@ class Person(models.Model):
 
 
 class ShiftType(models.Model):
+# todo major changes...
     label = models.CharField(max_length=40)
     hours = models.DecimalField(max_digits=6, decimal_places=2)
     def __unicode__(self):
@@ -60,6 +61,7 @@ class Shift(models.Model):
     shift_type = models.ForeignKey(ShiftType)
     start = models.TimeField(null=True, blank=True)
     end = models.TimeField(null=True, blank=True)
+# TODO needs hours completed
     contract = models.CharField(max_length=4, choices=CNTRCTS)
     outcome = models.ForeignKey(Outcome)
     note = models.CharField(max_length=80,null=True, blank=True)
