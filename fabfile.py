@@ -12,6 +12,7 @@ USERNAME = 'ubuntu'
 ROOT_USER = 'root'
 USER_DIR = '/usr/{}'.format(USERNAME)
 DEPLOY_PATH = '{}/{}'.format(USER_DIR, PROJECT_NAME)
+VENV_PATH = '{}/venv'.format(DEPLOY_PATH)
 
 env.hosts = os.environ['HOST']
 env.password = ''
@@ -28,7 +29,7 @@ def as_ubuntu():
     disconnect_all()
 
 
-def setup():
+def setup(repo='git@github.com:AJamesPhillips/shev.git'):
     as_root()
     create_user(USERNAME)
     setup_ssh()
@@ -38,8 +39,9 @@ def setup():
 
     as_ubuntu()
     setup_user_env()
-    clone_repo(repo=os.environ['REPO'], destination=DEPLOY_PATH)
+    clone_repo(repo=repo, destination=DEPLOY_PATH)
     install_repo_dependancies()
+    setup_db()
 
 
 def create_user(username):
@@ -114,6 +116,17 @@ def install_dependancies():
     run('pip install virtualenv')
 
 
+def setup_nginx():
+    context = {
+      'PORT': os.environ['PORT'],
+      'DEPLOY_PATH': DEPLOY_PATH,
+    }
+    upload_template(filename='./deploy/templates/nginx-sites-enabled/app',
+      context=context, backup=False,
+      destination='/etc/nginx/sites-enabled/app.conf')
+    run('update-rc.d nginx defaults')
+
+
 def install_repo_dependancies():
     with cd(DEPLOY_PATH):
         if not exists('venv'):
@@ -126,15 +139,9 @@ def run_with_venv(cmd):
         run('source venv/bin/activate && {}'.format(cmd))
 
 
-def setup_nginx():
-    context = {
-      'PORT': os.environ['PORT'],
-      'DEPLOY_PATH': DEPLOY_PATH,
-    }
-    upload_template(filename='./deploy/templates/nginx-sites-enabled/app',
-      context=context, backup=False,
-      destination='/etc/nginx/sites-enabled/app.conf')
-    run('update-rc.d nginx defaults')
+def setup_db():
+    with cd(DEPLOY_PATH):
+        run_with_venv('honcho run -e conf/stage.env python manage.py syncdb')
 
 
 def restart(redefine='f'):
@@ -146,7 +153,7 @@ def restart(redefine='f'):
                 with settings(warn_only=True):
                     if not exists(env):
                         abort("You need to upload the environment file '{}' first".format(env))
-                context = {'PORT': os.environ['PORT']}
+                context = {'VENV': VENV_PATH, 'PORT': os.environ['PORT']}
                 upload_template(filename='deploy/templates/Procfile.stage',
                   destination='Procfile.stage', backup=False, context=context)
                 upload_template(filename='deploy/templates/gunicorn.conf',
@@ -175,4 +182,4 @@ def deploy():
 
 
 def logs():
-    run('tail -f /var/log/shev/*.log')
+    run('tail -f /var/log/shev/*.log /var/log/nginx/*.log')

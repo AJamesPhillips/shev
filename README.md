@@ -17,7 +17,7 @@ We'd recommend using something like virtualenv to manage your packages.
     $ pip install -r requirements.txt
     $ cd shev
     shev$ python manage.py syncdb
-    python manage.py loaddata roster/sample/shift_type.json roster/sample/team_or_agency.json roster/sample/outcome.json roster/sample/person.json roster/sample/day.json roster/sample/shift.json
+    $ python manage.py loaddata shev/roster/sample/shift_type.json shev/roster/sample/team_or_agency.json shev/roster/sample/outcome.json shev/roster/sample/person.json shev/roster/sample/day.json shev/roster/sample/shift.json
 
 ### Start the dev server
 
