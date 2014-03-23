@@ -2,3 +2,5 @@
 *.pyc
 shev/db.sqlite3
 db.sqlite3
+gunicorn.conf
+static/

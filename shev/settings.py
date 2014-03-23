@@ -17,12 +17,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+^w0*ossd&uk$*7b$@21vyi$ywah(r4cae+%#5g%2jr5n$k#)h'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ['DEBUG'])
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shev.roster',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -81,3 +82,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
