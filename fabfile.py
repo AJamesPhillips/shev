@@ -146,6 +146,9 @@ def restart(redefine='f'):
                 with settings(warn_only=True):
                     if not exists(env):
                         abort("You need to upload the environment file '{}' first".format(env))
+        context = {'PORT': os.environ['PORT']}
+        upload_template(filename='deploy/templates/Procfile.stage',
+          destination='Procfile.stage', backup=False, context=context)
         as_root()
         run_with_venv('honcho export --user {} --app {} --shell /bin/bash -e {} -f Procfile.stage upstart /etc/init'.format(USERNAME, PROJECT_NAME, env))
 
