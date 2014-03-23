@@ -6,13 +6,13 @@ upstream app_server {
 }
 
 server {
-  root %(DEPLOY_PATH)s/static;
-
   # define what error page for what error cocde
   error_page 500 502 504 /500.html;
   error_page 404 /404.html;
 
   location / {
+    root %(DEPLOY_PATH)s/shev/static/;
+
     # serve public assets like error pages, and robots.txt
     proxy_redirect off;
 
@@ -26,5 +26,9 @@ server {
       proxy_pass http://127.0.0.1:%(PORT)s;
       break;
     }
+  }
+
+  location /static/ {
+    root %(DEPLOY_PATH)s/;
   }
 }
