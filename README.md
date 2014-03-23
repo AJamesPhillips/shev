@@ -22,3 +22,19 @@ We'd recommend using something like virtualenv to manage your packages.
 ### Start the dev server
 
     shev$ python manage.py runserver
+
+
+## Provisioning and deployment
+
+### Provisioning
+
+    $ virtualenv venv
+    $ source venv/bin/activate
+    $ honcho run -e conf/stage.env fab setup
+    $ honcho run -e conf/stage.env fab restart:redefine=t
+
+### Deploying
+
+    $ virtualenv venv
+    $ source venv/bin/activate
+    $ honcho run -e conf/stage.env fab deploy
