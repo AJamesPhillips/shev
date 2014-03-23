@@ -117,14 +117,15 @@ def run_with_venv(cmd):
 
 
 def restart(redefine='f'):
-    env = 'conf/stage.env'
-    as_ubuntu()
-    with settings(warn_only=True):
-        if run('ls ' + env).return_code != 0:
-            abort("You need to upload the environment file '{}' first".format(env))
-
-    as_root()
     if redefine != 'f':
+        with hide('warnings'):
+            with cd(DEPLOY_PATH):
+                env = 'conf/stage.env'
+                as_ubuntu()
+                with settings(warn_only=True):
+                    if run('ls ' + env).return_code != 0:
+                        abort("You need to upload the environment file '{}' first".format(env))
+        as_root()
         run_with_venv('honcho export --user {} --app {} --shell /bin/bash -e {} -f Procfile.stage upstart /etc/init'.format(USERNAME, PROJECT_NAME, env))
 
     as_ubuntu()

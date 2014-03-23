@@ -31,7 +31,7 @@ We'd recommend using something like virtualenv to manage your packages.
     $ virtualenv venv
     $ source venv/bin/activate
     $ honcho run -e conf/stage.env fab setup
-    $ honcho run -e conf/stage.env fab restart:define=t
+    $ honcho run -e conf/stage.env fab restart:redefine=t
 
 ### Deploying
 
