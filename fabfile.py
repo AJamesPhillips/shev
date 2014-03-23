@@ -178,6 +178,7 @@ def deploy():
     install_repo_dependancies()
     with cd(DEPLOY_PATH):
         run('git pull')
+        run_with_venv('honcho run -e conf/stage.env python manage.py collectstatic')
     restart()
 
 
