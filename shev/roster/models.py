@@ -84,6 +84,7 @@ class ShiftType(BaseModel):
     hours = models.DecimalField(null=True, max_digits=6, decimal_places=2)
     start = models.TimeField(null=True, blank=True)
     end = models.TimeField(null=True, blank=True)
+    mutex = models.BooleanField(default=True)
     clinical = models.BooleanField()
     supernumeraryable = models.BooleanField(default=False)  # sorry for the name
     time_of_day = models.CharField(null=True, max_length=10, choices=SHIFT_CHOICES)
@@ -167,10 +168,12 @@ class Shift(BaseModel):
 
     def clean(self, *args, **kwargs):
         super(Shift, self).clean(*args, **kwargs)
-        other_shifts = (self.person.shifts.exclude(end__lte=self.start)
-            .exclude(start__gte=self.end).values_list('id', flat=True))
-        if other_shifts:
-            raise ShiftsOverlapError(params={'shift_ids': other_shifts})
+        if self.shift_type.mutex:
+            other_shifts = (self.person.shifts.exclude(end__lte=self.start)
+                .exclude(start__gte=self.end).prefetch_related('shift_type')
+                .exclude(shift_type__mutex=False).values_list('id', flat=True))
+            if other_shifts:
+                raise ShiftsOverlapError(params={'shift_ids': other_shifts})
 
 
 # class ShiftForm(ModelForm):
