@@ -41,7 +41,7 @@ def setup(repo='git@github.com:AJamesPhillips/shev.git'):
     setup_user_env()
     clone_repo(repo=repo, destination=DEPLOY_PATH)
     install_repo_dependancies()
-    setup_db()
+    # setup_db()  # setup should be idempotent, this would erase all the data
 
 
 def create_user(username):
@@ -179,6 +179,7 @@ def deploy(redefine='f'):
     with cd(DEPLOY_PATH):
         run('git pull')
         run_with_venv('honcho run -e conf/stage.env python manage.py collectstatic')
+        run_with_venv('honcho run -e conf/stage.env python manage.py migrate')
     restart(redefine)
 
 
