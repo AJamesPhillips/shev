@@ -1,1 +1,505 @@
-[{"pk": 1, "model": "roster.teamoragency", "fields": {"label": "The A Team"}}, {"pk": 2, "model": "roster.teamoragency", "fields": {"label": "The B Team"}}, {"pk": 3, "model": "roster.teamoragency", "fields": {"label": "Central Intelligence Agency"}}, {"pk": 4, "model": "roster.teamoragency", "fields": {"label": "Number 2 Agency"}}, {"pk": 1, "model": "roster.person", "fields": {"band": "7", "first_name": "Florence", "last_name": "Nightingale", "team_or_agency": 1}}, {"pk": 2, "model": "roster.person", "fields": {"band": "6", "first_name": "Gladys", "last_name": "Emmanuel", "team_or_agency": 4}}, {"pk": 3, "model": "roster.person", "fields": {"band": "7", "first_name": "Ann", "last_name": "Dunn", "team_or_agency": 1}}, {"pk": 4, "model": "roster.person", "fields": {"band": "6.5", "first_name": "Mike", "last_name": "Brown", "team_or_agency": 1}}, {"pk": 5, "model": "roster.person", "fields": {"band": "6", "first_name": "Brian", "last_name": "Smith", "team_or_agency": 1}}, {"pk": 6, "model": "roster.person", "fields": {"band": "6", "first_name": "Mary", "last_name": "Red", "team_or_agency": 2}}, {"pk": 7, "model": "roster.person", "fields": {"band": "5", "first_name": "Betty", "last_name": "Orange", "team_or_agency": 1}}, {"pk": 8, "model": "roster.person", "fields": {"band": "5", "first_name": "Julie", "last_name": "Green", "team_or_agency": 2}}, {"pk": 9, "model": "roster.person", "fields": {"band": "5", "first_name": "James", "last_name": "Brown", "team_or_agency": 1}}, {"pk": 10, "model": "roster.person", "fields": {"band": "6", "first_name": "Kylie", "last_name": "Mint", "team_or_agency": 3}}, {"pk": 11, "model": "roster.person", "fields": {"band": "4", "first_name": "Jim", "last_name": "Bugg", "team_or_agency": 4}}, {"pk": 1, "model": "roster.shifttype", "fields": {"hours": "11.5", "label": "Clinical Shift - LD"}}, {"pk": 2, "model": "roster.shifttype", "fields": {"hours": "7.5", "label": "Clinical Shift - Early"}}, {"pk": 3, "model": "roster.shifttype", "fields": {"hours": "7.5", "label": "Clinical Shift - Late"}}, {"pk": 4, "model": "roster.shifttype", "fields": {"hours": "11.5", "label": "Clinical Shift - N"}}, {"pk": 5, "model": "roster.shifttype", "fields": {"hours": "10.75", "label": "Clinical Shift - N Ag"}}, {"pk": 6, "model": "roster.shifttype", "fields": {"hours": "0", "label": "Annual Leave"}}, {"pk": 7, "model": "roster.shifttype", "fields": {"hours": "0", "label": "Emerg Annual Leave"}}, {"pk": 8, "model": "roster.shifttype", "fields": {"hours": "0", "label": "Study Leave"}}, {"pk": 9, "model": "roster.shifttype", "fields": {"hours": "0", "label": "Study Day (not leave)"}}, {"pk": 10, "model": "roster.shifttype", "fields": {"hours": "7.5", "label": "Management Time"}}, {"pk": 11, "model": "roster.shifttype", "fields": {"hours": "7.5", "label": "Band 7 Day"}}, {"pk": 12, "model": "roster.shifttype", "fields": {"hours": "0", "label": "Special Leave"}}, {"pk": 13, "model": "roster.shifttype", "fields": {"hours": "37.5", "label": "Mat. Leave"}}, {"pk": 14, "model": "roster.shifttype", "fields": {"hours": "0", "label": "Staff Meeting"}}, {"pk": 1, "model": "roster.outcome", "fields": {"label": "Unset"}}, {"pk": 2, "model": "roster.outcome", "fields": {"label": "Sick"}}, {"pk": 3, "model": "roster.outcome", "fields": {"label": "Cancelled"}}, {"pk": 4, "model": "roster.outcome", "fields": {"label": "Self-cancelled"}}, {"pk": 5, "model": "roster.outcome", "fields": {"label": "Absent"}}, {"pk": 6, "model": "roster.outcome", "fields": {"label": "?back"}}, {"pk": 7, "model": "roster.outcome", "fields": {"label": "Is Back"}}, {"pk": 1, "model": "roster.day", "fields": {"note": "", "day": "2014-03-31"}}, {"pk": 2, "model": "roster.day", "fields": {"note": "April fools day", "day": "2014-04-01"}}, {"pk": 3, "model": "roster.day", "fields": {"note": "Sample shifts ", "day": "2014-03-20"}}, {"pk": 1, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "REGU", "note": "", "person": 1, "shift_type": 1, "outcome": 1, "day": 1}}, {"pk": 2, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "REGU", "note": "", "person": 1, "shift_type": 3, "outcome": 1, "day": 2}}, {"pk": 3, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "AGNC", "note": "", "person": 2, "shift_type": 3, "outcome": 1, "day": 2}}, {"pk": 4, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "REGU", "note": "", "person": 3, "shift_type": 1, "outcome": 1, "day": 3}}, {"pk": 5, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "REGU", "note": "", "person": 4, "shift_type": 1, "outcome": 1, "day": 3}}, {"pk": 6, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "REGU", "note": "", "person": 5, "shift_type": 1, "outcome": 1, "day": 3}}, {"pk": 7, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "REGU", "note": "", "person": 6, "shift_type": 1, "outcome": 1, "day": 3}}, {"pk": 8, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "REGU", "note": "", "person": 7, "shift_type": 1, "outcome": 1, "day": 3}}, {"pk": 9, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "REGU", "note": "", "person": 8, "shift_type": 2, "outcome": 1, "day": 3}}, {"pk": 10, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "REGU", "note": "working with student", "person": 9, "shift_type": 3, "outcome": 1, "day": 3}}, {"pk": 11, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "BANK", "note": "", "person": 10, "shift_type": 1, "outcome": 1, "day": 3}}, {"pk": 12, "model": "roster.shift", "fields": {"assigned": "", "end": null, "start": null, "contract": "AGNC", "note": "", "person": 11, "shift_type": 1, "outcome": 1, "day": 3}}]
+[
+    {
+        "pk": 1,
+        "model": "roster.teamoragency",
+        "fields": {
+            "label": "The A Team"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "roster.teamoragency",
+        "fields": {
+            "label": "The B Team"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "roster.teamoragency",
+        "fields": {
+            "label": "Central Intelligence Agency"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "roster.teamoragency",
+        "fields": {
+            "label": "Number 2 Agency"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "roster.person",
+        "fields": {
+            "band": "7",
+            "first_name": "Florence",
+            "last_name": "Nightingale",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "roster.person",
+        "fields": {
+            "band": "6",
+            "first_name": "Gladys",
+            "last_name": "Emmanuel",
+            "team_or_agency": 4
+        }
+    },
+    {
+        "pk": 3,
+        "model": "roster.person",
+        "fields": {
+            "band": "7",
+            "first_name": "Ann",
+            "last_name": "Dunn",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 4,
+        "model": "roster.person",
+        "fields": {
+            "band": "6.5",
+            "first_name": "Mike",
+            "last_name": "Brown",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 5,
+        "model": "roster.person",
+        "fields": {
+            "band": "6",
+            "first_name": "Brian",
+            "last_name": "Smith",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 6,
+        "model": "roster.person",
+        "fields": {
+            "band": "6",
+            "first_name": "Mary",
+            "last_name": "Red",
+            "team_or_agency": 2
+        }
+    },
+    {
+        "pk": 7,
+        "model": "roster.person",
+        "fields": {
+            "band": "5",
+            "first_name": "Betty",
+            "last_name": "Orange",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 8,
+        "model": "roster.person",
+        "fields": {
+            "band": "5",
+            "first_name": "Julie",
+            "last_name": "Green",
+            "team_or_agency": 2
+        }
+    },
+    {
+        "pk": 9,
+        "model": "roster.person",
+        "fields": {
+            "band": "5",
+            "first_name": "James",
+            "last_name": "Brown",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 10,
+        "model": "roster.person",
+        "fields": {
+            "band": "6",
+            "first_name": "Kylie",
+            "last_name": "Mint",
+            "team_or_agency": 3
+        }
+    },
+    {
+        "pk": 11,
+        "model": "roster.person",
+        "fields": {
+            "band": "4",
+            "first_name": "Jim",
+            "last_name": "Bugg",
+            "team_or_agency": 4
+        }
+    },
+    {
+        "pk": 1,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "11.5",
+            "label": "Clinical Shift - LD"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "7.5",
+            "label": "Clinical Shift - Early"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "7.5",
+            "label": "Clinical Shift - Late"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "11.5",
+            "label": "Clinical Shift - N"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "10.75",
+            "label": "Clinical Shift - N Ag"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Annual Leave"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Emerg Annual Leave"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Study Leave"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Study Day (not leave)"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "7.5",
+            "label": "Management Time"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "7.5",
+            "label": "Band 7 Day"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Special Leave"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "37.5",
+            "label": "Mat. Leave"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Staff Meeting"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Unset"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Sick"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Cancelled"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Self-cancelled"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Absent"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "?back"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Is Back"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "roster.day",
+        "fields": {
+            "note": "",
+            "day": "2014-03-31"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "roster.day",
+        "fields": {
+            "note": "April fools day",
+            "day": "2014-04-01"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "roster.day",
+        "fields": {
+            "note": "Sample shifts ",
+            "day": "2014-03-20"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 1,
+            "contract": "REGU",
+            "assigned": "",
+            "start": null,
+            "shift_type": 1,
+            "outcome": 1,
+            "day": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 1,
+            "contract": "REGU",
+            "assigned": "",
+            "start": null,
+            "shift_type": 3,
+            "outcome": 1,
+            "day": 2
+        }
+    },
+    {
+        "pk": 3,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 2,
+            "contract": "AGNC",
+            "assigned": "",
+            "start": null,
+            "shift_type": 3,
+            "outcome": 1,
+            "day": 2
+        }
+    },
+    {
+        "pk": 4,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 3,
+            "contract": "REGU",
+            "assigned": "",
+            "start": null,
+            "shift_type": 1,
+            "outcome": 1,
+            "day": 3
+        }
+    },
+    {
+        "pk": 5,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 4,
+            "contract": "REGU",
+            "assigned": "",
+            "start": null,
+            "shift_type": 1,
+            "outcome": 1,
+            "day": 3
+        }
+    },
+    {
+        "pk": 6,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 5,
+            "contract": "REGU",
+            "assigned": "",
+            "start": null,
+            "shift_type": 1,
+            "outcome": 1,
+            "day": 3
+        }
+    },
+    {
+        "pk": 7,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 6,
+            "contract": "REGU",
+            "assigned": "",
+            "start": null,
+            "shift_type": 1,
+            "outcome": 1,
+            "day": 3
+        }
+    },
+    {
+        "pk": 8,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 7,
+            "contract": "REGU",
+            "assigned": "",
+            "start": null,
+            "shift_type": 1,
+            "outcome": 1,
+            "day": 3
+        }
+    },
+    {
+        "pk": 9,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 8,
+            "contract": "REGU",
+            "assigned": "",
+            "start": null,
+            "shift_type": 2,
+            "outcome": 1,
+            "day": 3
+        }
+    },
+    {
+        "pk": 10,
+        "model": "roster.shift",
+        "fields": {
+            "note": "working with student",
+            "end": null,
+            "person": 9,
+            "contract": "REGU",
+            "assigned": "",
+            "start": null,
+            "shift_type": 3,
+            "outcome": 1,
+            "day": 3
+        }
+    },
+    {
+        "pk": 11,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 10,
+            "contract": "BANK",
+            "assigned": "",
+            "start": null,
+            "shift_type": 1,
+            "outcome": 1,
+            "day": 3
+        }
+    },
+    {
+        "pk": 12,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 11,
+            "contract": "AGNC",
+            "assigned": "",
+            "start": null,
+            "shift_type": 1,
+            "outcome": 1,
+            "day": 3
+        }
+    }
+]

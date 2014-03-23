@@ -1,0 +1,102 @@
+[
+    {
+        "pk": 1,
+        "model": "roster.person",
+        "fields": {
+            "band": "7",
+            "first_name": "Florence",
+            "last_name": "Nightingale",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "roster.person",
+        "fields": {
+            "band": "7",
+            "first_name": "Ann",
+            "last_name": "Dunn",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 3,
+        "model": "roster.person",
+        "fields": {
+            "band": "6.5",
+            "first_name": "Mike",
+            "last_name": "Brown",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 4,
+        "model": "roster.person",
+        "fields": {
+            "band": "6",
+            "first_name": "Brian",
+            "last_name": "Smith",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 5,
+        "model": "roster.person",
+        "fields": {
+            "band": "6",
+            "first_name": "Mary",
+            "last_name": "Red",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 6,
+        "model": "roster.person",
+        "fields": {
+            "band": "5",
+            "first_name": "Betty",
+            "last_name": "Orange",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 7,
+        "model": "roster.person",
+        "fields": {
+            "band": "5",
+            "first_name": "Julie",
+            "last_name": "Green",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 8,
+        "model": "roster.person",
+        "fields": {
+            "band": "5",
+            "first_name": "James",
+            "last_name": "Brown",
+            "team_or_agency": 1
+        }
+    },
+    {
+        "pk": 9,
+        "model": "roster.person",
+        "fields": {
+            "band": "Bank",
+            "first_name": "Kylie",
+            "last_name": "Mint",
+            "team_or_agency": 2
+        }
+    },
+    {
+        "pk": 10,
+        "model": "roster.person",
+        "fields": {
+            "band": "Agency",
+            "first_name": "Jim",
+            "last_name": "Bugg",
+            "team_or_agency": 3
+        }
+    }
+]

@@ -1,0 +1,51 @@
+[
+    {
+        "pk": 1,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Unset"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Sick"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Cancelled"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Self-cancelled"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Absent"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "?back"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "roster.outcome",
+        "fields": {
+            "label": "Is Back"
+        }
+    }
+]

@@ -1,0 +1,114 @@
+[
+    {
+        "pk": 1,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "11.5",
+            "label": "Clinical Shift - LD"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "7.5",
+            "label": "Clinical Shift - Early"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "7.5",
+            "label": "Clinical Shift - Late"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "11.5",
+            "label": "Clinical Shift - N"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "10.75",
+            "label": "Clinical Shift - N Ag"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Annual Leave"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Emerg Annual Leave"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Study Leave"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Study Day (not leave)"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "7.5",
+            "label": "Management Time"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "7.5",
+            "label": "Band 7 Day"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Special Leave"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "37.5",
+            "label": "Mat. Leave"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "roster.shifttype",
+        "fields": {
+            "hours": "0",
+            "label": "Staff Meeting"
+        }
+    }
+]

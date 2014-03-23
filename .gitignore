@@ -1,3 +1,4 @@
 *.*~
 *.pyc
 shev/db.sqlite3
+db.sqlite3

@@ -1,0 +1,17 @@
+[
+    {
+        "pk": 1,
+        "model": "roster.shift",
+        "fields": {
+            "note": "",
+            "end": null,
+            "person": 1,
+            "contract": "REGU",
+            "assigned": "",
+            "start": null,
+            "shift_type": 1,
+            "outcome": 1,
+            "day": 1
+        }
+    }
+]

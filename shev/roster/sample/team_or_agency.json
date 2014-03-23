@@ -1,0 +1,23 @@
+[
+    {
+        "pk": 1,
+        "model": "roster.teamoragency",
+        "fields": {
+            "label": "The A Team"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "roster.teamoragency",
+        "fields": {
+            "label": "The B Team"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "roster.teamoragency",
+        "fields": {
+            "label": "Central Intelligence Agency"
+        }
+    }
+]
