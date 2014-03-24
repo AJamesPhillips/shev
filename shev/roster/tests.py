@@ -50,7 +50,9 @@ class TestScheduling(TestCase):
         self.bob.shifts.create(day=self.today, shift_type=self.annual_leave,
             start=Shift.make_datetime(self.today.day, time(16, 0)))
 
-    def test_no_day_after_night(self):
+    def test_no_day_near_night(self):
         self.bob.shifts.create(day=self.today, shift_type=self.night_shift)
+        with self.assert_validation_errors([DayNearNightError]):
+            self.bob.shifts.create(day=self.today, shift_type=self.late_shift)
         with self.assert_validation_errors([DayNearNightError]):
             self.bob.shifts.create(day=self.tomorrow, shift_type=self.late_shift)
