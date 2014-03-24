@@ -33,3 +33,8 @@ class ShiftLacksDayError(BaseValidationError):
 class ShiftLacksTimeError(BaseValidationError):
     code = 'SHIFT_LACKS_TIME'
     message = ('Please specify a start and end for this shift')
+
+
+class MultipleAnnualLeaveError(BaseValidationError):
+    code = 'MULTIPLE_ANNUAL_LEAVE'
+    message = ('You already have annual leave booked for this day')

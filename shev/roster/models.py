@@ -5,7 +5,8 @@ from django.db.models import Q
 from django.utils.timezone import utc
 
 from shev.roster.exceptions import (ShiftsOverlapError, DayNearNightError,
-    ShiftLacksTypeError, ShiftLacksDayError, ShiftLacksTimeError)
+    ShiftLacksTypeError, ShiftLacksDayError, ShiftLacksTimeError,
+    MultipleAnnualLeaveError)
 
 
 class BaseManager(models.Manager):
@@ -202,17 +203,26 @@ class Shift(BaseModel):
         super(Shift, self).clean(*args, **kwargs)
         if self.errored:
             return
-        if self.shift_type.mutex:
-            other_shifts = self.person.shifts.exclude(pk=self.pk)
-            if self.start is not None:
-                other_shifts = other_shifts.exclude(end__lte=self.start).exclude(end__isnull=True)
-            if self.end is not None:
-                other_shifts = other_shifts.exclude(start__gte=self.end).exclude(start__isnull=True)
-            other_shifts = (other_shifts.prefetch_related('shift_type')
-                .exclude(shift_type__mutex=False).values_list('id', flat=True))
-            if other_shifts:
-                raise ShiftsOverlapError(params={'shift_ids': other_shifts})
 
+        other_shifts = (self.person.shifts.exclude(pk=self.pk)
+            .prefetch_related('shift_type'))
+        if self.shift_type.mutex:
+            other_shifts = other_shifts.exclude(shift_type__mutex=False)
+            ExceptionClass = ShiftsOverlapError
+        else:
+            # We assume we only have annual leave, this data model smells
+            other_shifts = other_shifts.exclude(shift_type__mutex=True)
+            ExceptionClass = MultipleAnnualLeaveError
+
+        if self.start is not None:
+            other_shifts = other_shifts.exclude(end__lte=self.start).exclude(end__isnull=True)
+        if self.end is not None:
+            other_shifts = other_shifts.exclude(start__gte=self.end).exclude(start__isnull=True)
+        other_shifts = other_shifts.values_list('id', flat=True)
+        if other_shifts:
+            raise ExceptionClass(params={'shift_ids': other_shifts})
+
+        if self.shift_type.mutex:
             time_of_day = self.shift_type.time_of_day
             if time_of_day and time_of_day == ShiftType.SHIFT_NIGHT:
                 # check there's not a day shift following or preceeding

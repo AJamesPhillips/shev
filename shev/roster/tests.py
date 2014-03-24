@@ -5,7 +5,7 @@ from django.forms import ValidationError
 from django.test import TestCase
 
 from shev.roster.models import TeamOrAgency, Person, ShiftType, Day, Shift
-from shev.roster.exceptions import ShiftsOverlapError, DayNearNightError
+from shev.roster.exceptions import ShiftsOverlapError, DayNearNightError, MultipleAnnualLeaveError
 
 
 class TestScheduling(TestCase):
@@ -56,3 +56,10 @@ class TestScheduling(TestCase):
             self.bob.shifts.create(day=self.today, shift_type=self.late_shift)
         with self.assert_validation_errors([DayNearNightError]):
             self.bob.shifts.create(day=self.tomorrow, shift_type=self.late_shift)
+
+    def test_multiple_annual_leave(self):
+        self.bob.shifts.create(day=self.today, shift_type=self.annual_leave,
+            end=Shift.make_datetime(self.today.day, time(12, 1)))
+        with self.assert_validation_errors([MultipleAnnualLeaveError]):
+            self.bob.shifts.create(day=self.today, shift_type=self.annual_leave,
+                start=Shift.make_datetime(self.today.day, time(12, 0)))
