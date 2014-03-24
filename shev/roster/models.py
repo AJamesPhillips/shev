@@ -89,7 +89,7 @@ class ShiftType(BaseModel):
     hours = models.DecimalField(null=True, max_digits=6, decimal_places=2)
     start = models.TimeField(null=True, blank=True)
     end = models.TimeField(null=True, blank=True)
-    mutex = models.BooleanField(default=True)
+    mutex = models.BooleanField(default=True, editable=False)
     clinical = models.BooleanField()
     supernumeraryable = models.BooleanField(default=False)  # sorry for the name
     time_of_day = models.CharField(null=True, max_length=10, choices=SHIFT_CHOICES, blank=True)
