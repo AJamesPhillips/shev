@@ -15,6 +15,21 @@ class ShiftsOverlapError(BaseValidationError):
         'for this person for this time period')
 
 
-class DayAfterNightError(BaseValidationError):
-    code = 'DAY_AFTER_NIGHT'
-    message = ('Person just came off nights, so you can not schedule a day shift.')
+class DayNearNightError(BaseValidationError):
+    code = 'DAY_NEAR_NIGHT'
+    message = ('Person just came off, or about to start nights/days, so you can not schedule a day/night shift.')
+
+
+class ShiftLacksTypeError(BaseValidationError):
+    code = 'SHIFT_LACKS_TYPE'
+    message = ('Please specify a type for this shift')
+
+
+class ShiftLacksDayError(BaseValidationError):
+    code = 'SHIFT_LACKS_DAY'
+    message = ('Please specify a day for this shift')
+
+
+class ShiftLacksTimeError(BaseValidationError):
+    code = 'SHIFT_LACKS_TIME'
+    message = ('Please specify a start and end for this shift')

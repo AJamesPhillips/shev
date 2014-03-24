@@ -5,7 +5,7 @@ from django.forms import ValidationError
 from django.test import TestCase
 
 from shev.roster.models import TeamOrAgency, Person, ShiftType, Day, Shift
-from shev.roster.exceptions import ShiftsOverlapError, DayAfterNightError
+from shev.roster.exceptions import ShiftsOverlapError, DayNearNightError
 
 
 class TestScheduling(TestCase):
@@ -52,5 +52,5 @@ class TestScheduling(TestCase):
 
     def test_no_day_after_night(self):
         self.bob.shifts.create(day=self.today, shift_type=self.night_shift)
-        with self.assert_validation_errors([DayAfterNightError]):
+        with self.assert_validation_errors([DayNearNightError]):
             self.bob.shifts.create(day=self.tomorrow, shift_type=self.late_shift)

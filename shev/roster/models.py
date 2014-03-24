@@ -5,7 +5,8 @@ from django.forms import ModelForm
 from django.db.models import Q
 from django.utils.timezone import utc, now
 
-from shev.roster.exceptions import ShiftsOverlapError, DayAfterNightError
+from shev.roster.exceptions import (ShiftsOverlapError, DayNearNightError,
+    ShiftLacksTypeError, ShiftLacksDayError, ShiftLacksTimeError)
 
 
 class BaseManager(models.Manager):
@@ -137,11 +138,11 @@ class Shift(BaseModel):
     #     return ShiftForm
 
     @classmethod
-    def make_datetime(cls, date_value=None, time_value=None):
-        if date_value is None:
-            date_value = now().date()
-        if time_value is None:
-            time_value = now().time()
+    def make_datetime(cls, date_value, time_value):
+        # if date_value is None:
+        #     date_value = now().date()
+        # if time_value is None:
+        #     time_value = now().time()
         date_time = datetime(year=date_value.year, month=date_value.month, day=date_value.day,
             hour=time_value.hour, minute=time_value.minute).replace(tzinfo=utc)
         return date_time
@@ -176,20 +177,39 @@ class Shift(BaseModel):
         return u"%s - %s - %s" % (self.day.day, self.person, self.shift_type)
 
     def clean_fields(self, *args, **kwargs):
-        if self.shift_type:
-            if self.hours is None:
-                self.hours = self.shift_type.hours
-            for field in ['start', 'end']:
-                if getattr(self, field) is None:
-                    time_value = getattr(self.shift_type, field)
-                    date_time = Shift.make_datetime(self.day.day, time_value)
-                    setattr(self, field, date_time)
+        self.errored = False
+        try:
+            if getattr(self, 'shift_type') is None:
+                raise ShiftLacksTypeError()
+            if getattr(self, 'day') is None:
+                raise ShiftLacksDayError()
+            if self.shift_type:
+                if self.hours is None:
+                    self.hours = self.shift_type.hours
+                for field in ['start', 'end']:
+                    if getattr(self, field) is None:
+                        time_value = getattr(self.shift_type, field)
+                        if time_value is None:
+                            if self.shift_type.clinical:
+                                raise ShiftLacksTimeError(params={'field': field})
+                        else:
+                            date_time = Shift.make_datetime(self.day.day, time_value)
+                            setattr(self, field, date_time)
+        except Exception:
+            self.errored = True
+            raise
 
     def clean(self, *args, **kwargs):
         super(Shift, self).clean(*args, **kwargs)
+        if self.errored:
+            return
         if self.shift_type.mutex:
-            other_shifts = (self.person.shifts.exclude(end__lte=self.start)
-                .exclude(start__gte=self.end).prefetch_related('shift_type')
+            other_shifts = self.person.shifts.exclude(pk=self.pk)
+            if self.start is not None:
+                other_shifts = other_shifts.exclude(end__lte=self.start).exclude(end__isnull=True)
+            if self.end is not None:
+                other_shifts = other_shifts.exclude(start__gte=self.end).exclude(start__isnull=True)
+            other_shifts = (other_shifts.prefetch_related('shift_type')
                 .exclude(shift_type__mutex=False).values_list('id', flat=True))
             if other_shifts:
                 raise ShiftsOverlapError(params={'shift_ids': other_shifts})
@@ -203,7 +223,7 @@ class Shift(BaseModel):
                     .filter(Q(day__day=self.day.day) | Q(day__day=self.day.day + timedelta(1)))
                     .values_list('id', flat=True))
                 if day_shifts:
-                    raise DayAfterNightError(params={'shift_ids': day_shifts})
+                    raise DayNearNightError(params={'shift_ids': day_shifts})
 
             if time_of_day and time_of_day != ShiftType.SHIFT_NIGHT:
                 # check there's not a night shift following or preceeding
@@ -212,7 +232,7 @@ class Shift(BaseModel):
                     .filter(Q(day__day=self.day.day) | Q(day__day=self.day.day - timedelta(1)))
                     .values_list('id', flat=True))
                 if night_shifts:
-                    raise DayAfterNightError(params={'shift_ids': night_shifts})
+                    raise DayNearNightError(params={'shift_ids': night_shifts})
 
 
 # class ShiftForm(ModelForm):
