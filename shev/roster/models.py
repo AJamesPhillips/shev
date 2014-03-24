@@ -1,9 +1,8 @@
 from datetime import datetime, timedelta
 
 from django.db import models
-from django.forms import ModelForm
 from django.db.models import Q
-from django.utils.timezone import utc, now
+from django.utils.timezone import utc
 
 from shev.roster.exceptions import (ShiftsOverlapError, DayNearNightError,
     ShiftLacksTypeError, ShiftLacksDayError, ShiftLacksTimeError)
@@ -92,7 +91,7 @@ class ShiftType(BaseModel):
     mutex = models.BooleanField(default=True)
     clinical = models.BooleanField()
     supernumeraryable = models.BooleanField(default=False)  # sorry for the name
-    time_of_day = models.CharField(null=True, max_length=10, choices=SHIFT_CHOICES)
+    time_of_day = models.CharField(null=True, max_length=10, choices=SHIFT_CHOICES, blank=True)
 
     def __unicode__(self):
         return u"%s:%s hours" % (self.label, self.hours)
