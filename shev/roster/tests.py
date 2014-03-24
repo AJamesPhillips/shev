@@ -1,10 +1,11 @@
+from contextlib import contextmanager
 from datetime import time, date
 
 from django.forms import ValidationError
 from django.test import TestCase
 
-from shev.roster.models import TeamOrAgency, Person, ShiftType, Day
-from shev.roster.exceptions import ShiftsOverlapError
+from shev.roster.models import TeamOrAgency, Person, ShiftType, Day, Shift
+from shev.roster.exceptions import ShiftsOverlapError, DayAfterNightError
 
 
 class TestScheduling(TestCase):
@@ -24,22 +25,32 @@ class TestScheduling(TestCase):
         self.today = Day.objects.create(day=date(2014, 03, 24))
         self.tomorrow = Day.objects.create(day=date(2014, 03, 25))
 
-    def test_reject_overlap(self):
-        self.bob.shifts.create(day=self.today, shift_type=self.late_shift,
-            end=time(16, 15))
-        errored = False
+    @contextmanager
+    def assert_validation_errors(self, expected_errors):
         try:
-            self.bob.shifts.create(day=self.today, shift_type=self.late_shift,
-                start=time(16, 0))
+            errored = False
+            yield
         except ValidationError as e:
             errored = True
             all_codes = [error.code for error in e.error_dict['__all__']]
-            self.assertIn(ShiftsOverlapError.code, all_codes)
-
+            expected_error_codes = [error.code for error in expected_errors]
+            self.assertEqual(set(expected_error_codes), set(all_codes))
         self.assertTrue(errored)
+
+    def test_reject_overlap(self):
+        self.bob.shifts.create(day=self.today, shift_type=self.late_shift,
+            end=Shift.make_datetime(self.today.day, time(16, 15)))
+        with self.assert_validation_errors([ShiftsOverlapError]):
+            self.bob.shifts.create(day=self.today, shift_type=self.late_shift,
+                start=Shift.make_datetime(self.today.day, time(16, 0)))
 
     def test_allow_annual_leave_overlap(self):
         self.bob.shifts.create(day=self.today, shift_type=self.late_shift,
-            end=time(16, 15))
+            end=Shift.make_datetime(self.today.day, time(16, 15)))
         self.bob.shifts.create(day=self.today, shift_type=self.annual_leave,
-            start=time(16, 0))
+            start=Shift.make_datetime(self.today.day, time(16, 0)))
+
+    def test_no_day_after_night(self):
+        self.bob.shifts.create(day=self.today, shift_type=self.night_shift)
+        with self.assert_validation_errors([DayAfterNightError]):
+            self.bob.shifts.create(day=self.tomorrow, shift_type=self.late_shift)

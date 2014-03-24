@@ -11,5 +11,10 @@ class BaseValidationError(ValidationError):
 
 class ShiftsOverlapError(BaseValidationError):
     code = 'SHIFT_OVERLAP'
-    message = ('You have one or more shifts already scheduled ' +
+    message = ('One or more shifts already scheduled ' +
         'for this person for this time period')
+
+
+class DayAfterNightError(BaseValidationError):
+    code = 'DAY_AFTER_NIGHT'
+    message = ('Person just came off nights, so you can not schedule a day shift.')

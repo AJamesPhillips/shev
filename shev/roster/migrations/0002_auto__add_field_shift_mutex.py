@@ -8,6 +8,12 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+
+        # Changing field 'Shift.end'
+        db.alter_column(u'roster_shift', 'end', self.gf('django.db.models.fields.DateTimeField')(null=True))
+
+        # Changing field 'Shift.start'
+        db.alter_column(u'roster_shift', 'start', self.gf('django.db.models.fields.DateTimeField')(null=True))
         # Adding field 'ShiftType.mutex'
         db.add_column(u'roster_shifttype', 'mutex',
                       self.gf('django.db.models.fields.BooleanField')(default=True),
@@ -15,6 +21,12 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
+
+        # Changing field 'Shift.end'
+        db.alter_column(u'roster_shift', 'end', self.gf('django.db.models.fields.TimeField')(null=True))
+
+        # Changing field 'Shift.start'
+        db.alter_column(u'roster_shift', 'start', self.gf('django.db.models.fields.TimeField')(null=True))
         # Deleting field 'ShiftType.mutex'
         db.delete_column(u'roster_shifttype', 'mutex')
 
@@ -44,14 +56,14 @@ class Migration(SchemaMigration):
             'assigned': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'contract': ('django.db.models.fields.CharField', [], {'default': "'REGU'", 'max_length': '4'}),
             'day': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'shifts'", 'to': u"orm['roster.Day']"}),
-            'end': ('django.db.models.fields.TimeField', [], {'null': 'True', 'blank': 'True'}),
+            'end': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'hours': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '6', 'decimal_places': '2', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'note': ('django.db.models.fields.CharField', [], {'max_length': '80', 'null': 'True', 'blank': 'True'}),
             'outcome': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['roster.Outcome']", 'null': 'True', 'blank': 'True'}),
             'person': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'shifts'", 'to': u"orm['roster.Person']"}),
             'shift_type': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'shifts'", 'to': u"orm['roster.ShiftType']"}),
-            'start': ('django.db.models.fields.TimeField', [], {'null': 'True', 'blank': 'True'}),
+            'start': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'supernumerary': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'roster.shifttype': {
