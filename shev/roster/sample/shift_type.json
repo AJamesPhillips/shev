@@ -4,7 +4,12 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "11.5",
-            "label": "Clinical Shift - LD"
+            "label": "Clinical Shift - LD",
+            "start": "07:45:00",
+            "end": "20:15:00",
+            "clinical": true,
+            "supernumeraryable": true,
+            "time_of_day": "LONG"
         }
     },
     {
@@ -12,7 +17,12 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "7.5",
-            "label": "Clinical Shift - Early"
+            "label": "Clinical Shift - Early",
+            "start": "07:45:00",
+            "end": "15:45:00",
+            "clinical": true,
+            "supernumeraryable": true,
+            "time_of_day": "EARLY"
         }
     },
     {
@@ -20,7 +30,12 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "7.5",
-            "label": "Clinical Shift - Late"
+            "label": "Clinical Shift - Late",
+            "start": "12:15:00",
+            "end": "20:15:00",
+            "clinical": true,
+            "supernumeraryable": true,
+            "time_of_day": "LATE"
         }
     },
     {
@@ -28,7 +43,12 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "11.5",
-            "label": "Clinical Shift - N"
+            "label": "Clinical Shift - N",
+            "start": "19:45:00",
+            "end": "08:15:00",
+            "clinical": true,
+            "supernumeraryable": true,
+            "time_of_day": "NIGHT"
         }
     },
     {
@@ -36,15 +56,23 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "10.75",
-            "label": "Clinical Shift - N Ag"
+            "label": "Clinical Shift - N Ag",
+            "start": "19:45:00",
+            "end": "08:15:00",
+            "clinical": true,
+            "time_of_day": "NIGHT"
         }
     },
     {
         "pk": 6,
         "model": "roster.shifttype",
         "fields": {
-            "hours": "0",
-            "label": "Annual Leave"
+            "hours": "7.5",
+            "label": "Annual Leave",
+            "start": "09:00:00",
+            "end": "17:00:00",
+            "clinical": false,
+            "mutex": true
         }
     },
     {
@@ -52,7 +80,10 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "0",
-            "label": "Emerg Annual Leave"
+            "label": "Emerg Annual Leave",
+            "start": null,
+            "end": null,
+            "clinical": false
         }
     },
     {
@@ -60,7 +91,10 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "0",
-            "label": "Study Leave"
+            "label": "Study Leave",
+            "start": null,
+            "end": null,
+            "clinical": false
         }
     },
     {
@@ -68,7 +102,10 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "0",
-            "label": "Study Day (not leave)"
+            "label": "Study Day (not leave)",
+            "start": null,
+            "end": null,
+            "clinical": false
         }
     },
     {
@@ -76,7 +113,10 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "7.5",
-            "label": "Management Time"
+            "label": "Management Time",
+            "start": null,
+            "end": null,
+            "clinical": false
         }
     },
     {
@@ -84,7 +124,10 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "7.5",
-            "label": "Band 7 Day"
+            "label": "Band 7 Day",
+            "start": null,
+            "end": null,
+            "clinical": false
         }
     },
     {
@@ -92,7 +135,10 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "0",
-            "label": "Special Leave"
+            "label": "Special Leave",
+            "start": null,
+            "end": null,
+            "clinical": false
         }
     },
     {
@@ -100,7 +146,10 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "37.5",
-            "label": "Mat. Leave"
+            "label": "Mat. Leave",
+            "start": null,
+            "end": null,
+            "clinical": false
         }
     },
     {
@@ -108,7 +157,10 @@
         "model": "roster.shifttype",
         "fields": {
             "hours": "0",
-            "label": "Staff Meeting"
+            "label": "Staff Meeting",
+            "start": null,
+            "end": null,
+            "clinical": false
         }
     }
 ]

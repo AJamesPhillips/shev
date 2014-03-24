@@ -4,6 +4,14 @@
         "model": "roster.day",
         "fields": {
             "note": "",
+            "day": "2014-03-30"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "roster.day",
+        "fields": {
+            "note": "",
             "day": "2014-03-31"
         }
     }
