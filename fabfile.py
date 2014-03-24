@@ -175,9 +175,10 @@ def run_succeeds(cmd):
 
 def deploy(redefine='f'):
     as_ubuntu()
-    install_repo_dependancies()
     with cd(DEPLOY_PATH):
         run('git pull')
+    install_repo_dependancies()
+    with cd(DEPLOY_PATH):
         run_with_venv('honcho run -e conf/stage.env python manage.py collectstatic')
         run_with_venv('honcho run -e conf/stage.env python manage.py migrate')
     restart(redefine)
