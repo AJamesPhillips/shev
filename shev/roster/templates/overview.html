@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ block.super }}
+<h1> Overview </h1>
+
+<style type="text/css">
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Staff</th>
+            <th>Band 7</th>
+            <th>Band 6.5</th>
+            <th class="last">Band 6</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for day in days %}
+        <tr>
+            <th><a href="{{ day.get_absolute_url }}">{{ day.day }}</a></th>
+            <th>{{ day.clinical_shifts|length }}</th>
+            <th></th>
+            <th></th>
+            <th class="last"></th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
