@@ -120,7 +120,7 @@ class Outcome(BaseModel):
 
 
 class Day(BaseModel):
-    day = models.DateField()
+    day = models.DateField(unique=True)
     note = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
