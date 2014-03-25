@@ -138,7 +138,6 @@ class Shift(BaseModel):
             hour=time_value.hour, minute=time_value.minute).replace(tzinfo=utc)
         return date_time
 
-
     objects = ShiftManager()
 
     REGULAR_CONTRACT = "REGU"
@@ -165,7 +164,7 @@ class Shift(BaseModel):
     assigned = models.CharField(max_length=20, null=True, blank=True) # this is something to do with the pod...
 
     def __unicode__(self):
-        return u"%s - %s - %s" % (self.day.day, self.person, self.shift_type)
+        return u"%s - %s - %s - %s hours" % (self.day.day, self.person, self.shift_type.label, self.hours)
 
     def clean_fields(self, *args, **kwargs):
         self.errored = False
