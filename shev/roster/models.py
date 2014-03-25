@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 
+from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
 from django.utils.timezone import utc
@@ -15,9 +17,6 @@ class BaseManager(models.Manager):
         instance.full_clean()
         instance.save()
         return instance
-        # form = instance.__class__.get_form_class()(instance=instance)
-        # if form.is_valid():
-        #     return instance
 
 
 class BaseModel(models.Model):
@@ -30,13 +29,11 @@ class BaseModel(models.Model):
         instance.full_clean()
         instance.save()
         return instance
-        # form = cls.get_form_class()(instance=instance)
-        # if form.is_valid():
-        #     return instance
 
-    # @classmethod
-    # def get_form_class(cls):
-    #     raise NotImplementedError('Subclasses should implement this')
+    @property
+    def admin_url(self):
+        content_type = ContentType.objects.get_for_model(self.__class__)
+        return reverse('admin:{}_{}_change'.format(content_type.app_label, content_type.model), args=(self.pk,))
 
 
 class TeamOrAgency(BaseModel):
@@ -126,23 +123,17 @@ class Day(BaseModel):
     def __unicode__(self):
         return u"%s %s" % (self.day, self.note)
 
+    def get_absolute_url(self):
+        return reverse('day', kwargs={'year': self.day.year, 'month': self.day.month, 'day': self.day.day})
+
 
 class ShiftManager(BaseManager):
     pass
 
 
 class Shift(BaseModel):
-
-    # @classmethod
-    # def get_form_class(cls):
-    #     return ShiftForm
-
     @classmethod
     def make_datetime(cls, date_value, time_value):
-        # if date_value is None:
-        #     date_value = now().date()
-        # if time_value is None:
-        #     time_value = now().time()
         date_time = datetime(year=date_value.year, month=date_value.month, day=date_value.day,
             hour=time_value.hour, minute=time_value.minute).replace(tzinfo=utc)
         return date_time
@@ -242,8 +233,3 @@ class Shift(BaseModel):
                     .values_list('id', flat=True))
                 if night_shifts:
                     raise DayNearNightError(params={'shift_ids': night_shifts})
-
-
-# class ShiftForm(ModelForm):
-#     class Meta:
-#         model = Shift
