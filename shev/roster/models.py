@@ -129,6 +129,16 @@ class Day(BaseModel):
     def clinical_shifts(self):
         return self.shifts.prefetch_related('shift_type').filter(shift_type__clinical=True)
 
+    @property
+    def previous_day(self):
+        day, _ = Day.objects.get_or_create(day=self.day - timedelta(days=1))
+        return day
+
+    @property
+    def next_day(self):
+        day, _ = Day.objects.get_or_create(day=self.day + timedelta(days=1))
+        return day
+
 
 class ShiftManager(BaseManager):
     pass
