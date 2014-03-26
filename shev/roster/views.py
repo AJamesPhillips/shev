@@ -26,5 +26,23 @@ def overview(request):
 
 def day(request, day, month, year):
     the_day = get_object_or_404(models.Day, day = datetime(int(year),int(month),int(day)))
-    the_shifts = the_day.shifts.all()
-    return render_to_response("day.html",{'day': the_day, 'shifts': the_shifts})
+    the_shifts = the_day.clinical_shifts().prefetch_related('outcome')
+    day_shifts = []
+    night_shifts = []
+    non_shifts = []
+    for shift in the_shifts:
+        if shift.occuring or shift.maybe_occuring:
+            if shift.shift_type.time_of_day != models.ShiftType.SHIFT_NIGHT:
+                day_shifts.append(shift)
+            else:
+                night_shifts.append(shift)
+        else:
+            non_shifts.append(shift)
+    context = {
+        'day': the_day,
+        'shifts': the_shifts,
+        'day_shifts': day_shifts,
+        'night_shifts': night_shifts,
+        'non_shifts': non_shifts,
+    }
+    return render_to_response("day.html", context)

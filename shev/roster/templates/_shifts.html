@@ -1,0 +1,18 @@
+<table>
+{% for shift in shifts %}
+    <tr class="{% if shift.maybe_occuring %} highlight {% endif %}">
+        <td class="span-8 no-background">
+            {{ shift }}
+        </td>
+        <td class="span-8 no-background">
+            {{ shift.note }}
+        </td>
+        <td class="span-2 no-background">
+            <a href="{{ shift.admin_url }}">(edit)</a>
+        </td>
+        <td class="span-2 no-background">
+            {% if shift.outcome %}{{ shift.outcome }}{% endif %}
+        </td>
+    </tr>
+{% endfor %}
+</table>

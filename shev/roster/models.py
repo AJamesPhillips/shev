@@ -170,13 +170,14 @@ class Shift(BaseModel):
         return u"%s - %s - %s - %s hours" % (self.day.day, self.person, self.shift_type.label, self.hours)
 
     def clean_fields(self, *args, **kwargs):
+        super(Shift, self).clean_fields(*args, **kwargs)
         self.errored = False
         try:
-            if getattr(self, 'shift_type') is None:
-                raise ShiftLacksTypeError()
-            if getattr(self, 'day') is None:
-                raise ShiftLacksDayError()
-            if self.shift_type:
+            exclude = set(kwargs.get('exclude', []))
+            if set(['shift_type', 'day', 'person']) & exclude:
+                self.errored = True
+                return
+            if not exclude:
                 if self.hours is None:
                     self.hours = self.shift_type.hours
                 for field in ['start', 'end']:
@@ -235,3 +236,11 @@ class Shift(BaseModel):
                     .values_list('id', flat=True))
                 if night_shifts:
                     raise DayNearNightError(params={'shift_ids': night_shifts})
+
+    @property
+    def maybe_occuring(self):
+        return self.outcome.label == Outcome.OUTCOME_MAYBE_BACK
+
+    @property
+    def occuring(self):
+        return self.outcome is None or self.outcome.label == Outcome.OUTCOME_IS_BACK
