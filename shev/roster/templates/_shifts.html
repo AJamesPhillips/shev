@@ -17,6 +17,9 @@
             </td>
             <td class="span-8">
                 {{ shift }}
+                {% if person_link %}
+                    <a href="{{ shift.person.get_absolute_url }}">({{ shift.person }})</a>
+                {% endif %}
             </td>
             <td class="span-8">
                 {{ shift.note }}

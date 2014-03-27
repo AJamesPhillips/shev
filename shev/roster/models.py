@@ -35,6 +35,9 @@ class BaseModel(models.Model):
         content_type = ContentType.objects.get_for_model(self.__class__)
         return reverse('admin:{}_{}_change'.format(content_type.app_label, content_type.model), args=(self.pk,))
 
+    def get_absolute_url(self):
+        raise NotImplementedError('Subclasses should implement this')
+
 
 class TeamOrAgency(BaseModel):
     class Meta(BaseModel.Meta):
@@ -70,6 +73,9 @@ class Person(BaseModel):
 #
     def __unicode__(self):
         return u"%s %s" % (self.first_name, self.last_name)
+
+    def get_absolute_url(self):
+        return reverse('person', kwargs={'pkid': self.pk})
 
 
 class ShiftType(BaseModel):

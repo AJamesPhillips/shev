@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ block.super }}
+<br>
+<h1>{{ person }}</h1>
+
+<a href="{% url 'overview' %}">Overview</a>
+
+<h2 class="bottom">Shifts</h2>
+{% include '_shifts.html' with shifts=person.shifts.all person_link=False %}
+<br><br><br>
+
+{% endblock %}
