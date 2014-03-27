@@ -190,10 +190,12 @@ class Shift(BaseModel):
         super(Shift, self).clean_fields(*args, **kwargs)
         self.errored = False
         try:
-            exclude = set(kwargs.get('exclude', [])) & set(['shift_type', 'day', 'person'])
-            if exclude:
-                self.errored = True
-                return
+            for field in ['shift_type', 'day', 'person']:
+                try:
+                    getattr(self, field)
+                except:
+                  self.errored = True
+                  return
             else:
                 if self.hours is None:
                     self.hours = self.shift_type.hours
