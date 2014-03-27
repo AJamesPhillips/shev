@@ -1,5 +1,6 @@
 {% if shifts %}
-    <table>
+    <table class="shifts">
+    <thead>
         <tr>
             <th class="span-2">Band / type</th>
             <th class="span-8">Shift</th>
@@ -7,26 +8,30 @@
             <th class="span-2">Edit</th>
             <th class="span-2">Outcome</th>
         </tr>
+    </thead>
+    <tbody>
     {% for shift in shifts %}
         <tr class="{% if shift.maybe_occuring %} highlight {% endif %}">
-            <td class="span-2 inherit-background">
+            <td class="span-2">
                 {{ shift.band_type_sup }}
             </td>
-            <td class="span-8 inherit-background">
+            <td class="span-8">
                 {{ shift }}
             </td>
-            <td class="span-8 inherit-background">
+            <td class="span-8">
                 {{ shift.note }}
             </td>
-            <td class="span-2 inherit-background">
+            <td class="span-2">
                 <a href="{{ shift.admin_url }}">(edit)</a>
             </td>
-            <td class="span-2 inherit-background">
+            <td class="span-2">
                 {% if shift.outcome %}{{ shift.outcome }}{% endif %}
             </td>
         </tr>
     {% endfor %}
+    </tbody>
     </table>
 {% else %}
-    <p>No shifts</p>
+    <br>
+    <p> No shifts </p>
 {% endif %}

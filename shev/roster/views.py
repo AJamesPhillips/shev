@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
-from django.http import HttpResponse, HttpResponseNotFound
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.utils import timezone
 
@@ -8,7 +9,7 @@ from . import models
 
 
 def home(request):
-    return HttpResponse('<h1>Hello World</h1>')
+    return HttpResponseRedirect(reverse('overview'))
 
 def about(request):
     return HttpResponse("<h1>Whatchew talking about?</h1>")

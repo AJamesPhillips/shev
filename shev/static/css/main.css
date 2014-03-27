@@ -1,4 +1,7 @@
 
-.inherit-background {
-    background-color: inherit !important;
+.highlight, .highlight td {
+    background-color: #ff0 !important;
+}
+.highlight.odd, .highlight.odd td {
+    background-color: #fdfd00 !important;
 }
