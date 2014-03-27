@@ -41,6 +41,7 @@ class TeamOrAgency(BaseModel):
         verbose_name_plural = "Teams and Agencies"
 
     label = models.CharField(max_length=40)
+    agency = models.BooleanField(default=False)
 
     def __unicode__(self):
         return u"%s" % (self.label)
