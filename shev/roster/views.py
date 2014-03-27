@@ -26,7 +26,7 @@ def overview(request):
 
 def day(request, day, month, year):
     the_day = get_object_or_404(models.Day, day = datetime(int(year),int(month),int(day)))
-    the_shifts = the_day.clinical_shifts().prefetch_related('outcome')
+    the_shifts = the_day.clinical_shifts().prefetch_related('outcome').prefetch_related('person')
     day_shifts = []
     night_shifts = []
     non_shifts = []

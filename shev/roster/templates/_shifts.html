@@ -1,7 +1,17 @@
 {% if shifts %}
     <table>
+        <tr>
+            <th class="span-2">Band / type</th>
+            <th class="span-8">Shift</th>
+            <th class="span-8">Notes</th>
+            <th class="span-2">Edit</th>
+            <th class="span-2">Outcome</th>
+        </tr>
     {% for shift in shifts %}
         <tr class="{% if shift.maybe_occuring %} highlight {% endif %}">
+            <td class="span-2 inherit-background">
+                {{ shift.band_type_sup }}
+            </td>
             <td class="span-8 inherit-background">
                 {{ shift }}
             </td>

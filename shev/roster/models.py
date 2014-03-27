@@ -183,11 +183,11 @@ class Shift(BaseModel):
         super(Shift, self).clean_fields(*args, **kwargs)
         self.errored = False
         try:
-            exclude = set(kwargs.get('exclude', []))
-            if set(['shift_type', 'day', 'person']) & exclude:
+            exclude = set(kwargs.get('exclude', [])) & set(['shift_type', 'day', 'person'])
+            if exclude:
                 self.errored = True
                 return
-            if not exclude:
+            else:
                 if self.hours is None:
                     self.hours = self.shift_type.hours
                 for field in ['start', 'end']:
@@ -254,3 +254,11 @@ class Shift(BaseModel):
     @property
     def occuring(self):
         return self.outcome is None or self.outcome.label == Outcome.OUTCOME_IS_BACK
+
+    @property
+    def band_type_sup(self):
+        # import ipdb; ipdb.set_trace()
+        val = self.person.band
+        val = self.contract if self.contract != self.REGULAR_CONTRACT else val
+        val = 'Supernumerary' if self.supernumerary else val
+        return val

@@ -11,10 +11,10 @@
 
 <a href="{% url 'overview' %}?year={{ day.day.year }}&month={{ day.day.month }}&day={{ day.day.day }}">Overview</a>
 
-<h2>Day shifts</h2>
+<h2>Day shift</h2>
 {% include '_shifts.html' with shifts=day_shifts %}
 
-<h2>Night shifts</h2>
+<h2>Night shift</h2>
 {% include '_shifts.html' with shifts=night_shifts %}
 
 <h2>Absent / Sick / Self cancelled / Cancelled</h2>
