@@ -7,8 +7,7 @@ from django.db.models import Q
 from django.utils.timezone import utc
 
 from shev.roster.exceptions import (ShiftsOverlapError, DayNearNightError,
-    ShiftLacksTypeError, ShiftLacksDayError, ShiftLacksTimeError,
-    MultipleAnnualLeaveError)
+    ShiftLacksTimeError, MultipleAnnualLeaveError)
 
 
 class BaseManager(models.Manager):
@@ -52,13 +51,18 @@ class TeamOrAgency(BaseModel):
 
 class Person(BaseModel):
     BAND_7 = "7"
+    BAND_6_5 = "6.5"
+    BAND_6 = "6"
+    BAND_5 = "5"
+    BAND_4 = "4"
+    BAND_2 = "2"
     BANDS = (
-        (BAND_7, "7"),
-        ("6.5", "6.5"),
-        ("6", "6"),
-        ("5", "5"),
-        ("4", "4"),
-        ("2", "2"),
+        (BAND_7, BAND_7),
+        (BAND_6_5, BAND_6_5),
+        (BAND_6, BAND_6),
+        (BAND_5, BAND_5),
+        (BAND_4, BAND_4),
+        (BAND_2, BAND_2),
     )
 
     class Meta(BaseModel.Meta):
@@ -148,6 +152,17 @@ class Day(BaseModel):
     def next_day(self):
         day, _ = Day.objects.get_or_create(day=self.day + timedelta(days=1))
         return day
+
+
+
+    @property
+    def bands(self):
+        bands = []
+        shifts = self.clinical_shifts().prefetch_related('person')
+        for band, display in Person.BANDS:
+            count = len([shift for shift in shifts if shift.person.band == band])
+            bands.append({'band': band, 'label': display, 'count': count})
+        return bands
 
 
 class ShiftManager(BaseManager):

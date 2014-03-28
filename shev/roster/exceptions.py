@@ -20,16 +20,6 @@ class DayNearNightError(BaseValidationError):
     message = ('Person just came off, or about to start nights/days, so you can not schedule a day/night shift.')
 
 
-class ShiftLacksTypeError(BaseValidationError):
-    code = 'SHIFT_LACKS_TYPE'
-    message = ('Please specify a type for this shift')
-
-
-class ShiftLacksDayError(BaseValidationError):
-    code = 'SHIFT_LACKS_DAY'
-    message = ('Please specify a day for this shift')
-
-
 class ShiftLacksTimeError(BaseValidationError):
     code = 'SHIFT_LACKS_TIME'
     message = ('Please specify a start and end for this shift')

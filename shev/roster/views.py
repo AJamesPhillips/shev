@@ -25,7 +25,7 @@ def overview(request):
     days = (models.Day.objects
         .filter(day__gte=start, day__lte=start+timedelta(days=7*4))
         .prefetch_related('shifts').select_related('shift__shift_type'))
-    return render_to_response("overview.html",{'days': days})
+    return render_to_response("overview.html", {'days': days, 'bands': models.Person.BANDS})
 
 
 def day(request, day, month, year):

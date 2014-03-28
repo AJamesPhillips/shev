@@ -13,19 +13,23 @@
         <tr>
             <th>Date</th>
             <th>Staff</th>
-            <th>Band 7</th>
-            <th>Band 6.5</th>
-            <th class="last">Band 6</th>
+            {% for band in bands %}
+                <th {% if forloop.last %}class="last"{% endif %}>
+                    Band {{ band.1 }}
+                </th>
+            {% endfor %}
         </tr>
     </thead>
     <tbody>
         {% for day in days %}
         <tr>
-            <th><a href="{{ day.get_absolute_url }}">{{ day.day }}</a></th>
-            <th>{{ day.clinical_shifts|length }}</th>
-            <th></th>
-            <th></th>
-            <th class="last"></th>
+            <td><a href="{{ day.get_absolute_url }}">{{ day.day }}</a></td>
+            <td>{{ day.clinical_shifts|length }}</td>
+            {% for band in day.bands %}
+                <td {% if forloop.last %}class="last"{% endif %}>
+                    {{ band.count }}
+                </td>
+            {% endfor %}
         </tr>
         {% endfor %}
     </tbody>
