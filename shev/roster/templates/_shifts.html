@@ -3,7 +3,8 @@
     <thead>
         <tr>
             <th class="span-2">Band / type</th>
-            <th class="span-8">Shift</th>
+            <th class="span-2">Date</th>
+            <th class="span-6">Shift</th>
             <th class="span-8">Notes</th>
             <th class="span-2">Edit</th>
             <th class="span-2">Outcome</th>
@@ -15,9 +16,16 @@
             <td class="span-2">
                 {{ shift.band_type_sup }}
             </td>
-            <td class="span-8">
+            <td class="span-2">
+                {% if day %}
+                    {{ shift.day }}
+                {% else %}
+                    <a href="{{ shift.day.get_absolute_url }}">{{ shift.day }}</a>
+                {% endif %}
+            </td>
+            <td class="span-6">
                 {{ shift }}
-                {% if person_link %}
+                {% if not person %}
                     <a href="{{ shift.person.get_absolute_url }}">({{ shift.person }})</a>
                 {% endif %}
             </td>
