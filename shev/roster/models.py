@@ -133,6 +133,9 @@ class Day(BaseModel):
     def get_absolute_url(self):
         return reverse('day', kwargs={'year': self.day.year, 'month': self.day.month, 'day': self.day.day})
 
+    def get_overview_url(self):
+        return reverse('overview') + '?year={}&month={}&day={}'.format(self.day.year, self.day.month, self.day.day)
+
     def clinical_shifts(self):
         return self.shifts.prefetch_related('shift_type').filter(shift_type__clinical=True)
 

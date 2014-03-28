@@ -11,7 +11,7 @@
     <a class="span-3 last" href="{{ day.next_day.get_absolute_url }}">{{ day.next_day }}&gt;&gt;</a>
 </div>
 
-<a href="{% url 'overview' %}?year={{ day.day.year }}&month={{ day.day.month }}&day={{ day.day.day }}">Overview</a>
+<a href="{{ day.get_overview_url }}">Overview</a>
 
 <h2 class="bottom">Day shift</h2>
 {% include '_shifts.html' with shifts=day_shifts person_link=True %}

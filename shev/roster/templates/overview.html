@@ -4,8 +4,9 @@
 {{ block.super }}
 <h1> Overview </h1>
 
-<style type="text/css">
-</style>
+<a href="{{ days.0.previous_day.get_overview_url }}">&lt;&lt; Earlier overview</a>
+&nbsp;&nbsp;&nbsp;
+<a href="{{ days.0.next_day.get_overview_url }}">Later overview &gt;&gt;</a>
 
 <table>
     <thead>
